@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Optionally get user to work on
 if [[ -n $1 ]]; then
 	USER="$1"
 fi

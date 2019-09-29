@@ -1,9 +1,11 @@
 #!/bin/bash
 
+# Optionally get user to work on
 if [[ -n $2 ]]; then
 	USER="$2"
 fi
 
+# Set wallpaper of user with DBus
 sudo -u $USER \
 DISPLAY=:0 \
 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u $USER)/bus \

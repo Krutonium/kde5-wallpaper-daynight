@@ -1,10 +1,12 @@
 #!/bin/bash
 
+# Optionally get user to work on
 if [[ -n $1 ]]; then
 	USER="$1"
 fi
 
-source $(eval echo  "~$USER/.daynightrc") || exit
+# Load config
+source $(eval echo "~$USER/.daynightrc") || exit
 PERIOD=day
 
 # Get day and hour
