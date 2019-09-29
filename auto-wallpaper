@@ -1,0 +1,12 @@
+#!/bin/bash
+
+
+
+# Decide on day/sunset/night version of wallpaper based on hour
+if [[ $HOUR -lt $DAY_HOUR || $HOUR -ge $NIGHT_HOUR ]]; then
+	night-mode
+elif [[ $HOUR -lt $SUNSET_HOUR ]]; then
+	day-mode
+elif [[ $HOUR -lt $NIGHT_HOUR ]]; then
+	sunset-mode
+fi

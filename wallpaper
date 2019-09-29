@@ -1,0 +1,14 @@
+#!/bin/bash
+sudo -u resin \
+DISPLAY=:0 \
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus \
+qdbus org.kde.plasmashell /PlasmaShell evaluateScript '
+    var allDesktops = desktops();
+    for (i=0;i<allDesktops.length;i++) 
+    {
+        d = allDesktops[i];
+        d.wallpaperPlugin = "org.kde.image";
+        d.currentConfigGroup = Array("Wallpaper", "org.kde.image", "General");
+        d.writeConfig("Image", "file://'$(realpath $1)'")
+    }
+'

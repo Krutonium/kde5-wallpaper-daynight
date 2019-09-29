@@ -1,0 +1,12 @@
+#!/bin/bash
+
+source $HOME/.daynightrc
+PERIOD=sunset
+
+# Get day and hour
+DAYS=$(date +"%j")
+HOUR=$(date +"%H")
+
+# Decide on wallpaper set based on daily rotation
+WALLPAPER_NAME=${WALLPAPERS[$(($DAYS % ${#WALLPAPERS[@]}))]}
+wallpaper "$WALLPAPER_PATH/$WALLPAPER_NAME-$PERIOD.$WALLPAPER_EXTENSION"

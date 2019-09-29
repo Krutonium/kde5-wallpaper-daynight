@@ -1,0 +1,9 @@
+[Unit]
+Description=Hourly checking the time for wallpaper day/night cycle
+
+[Timer]
+OnCalendar=00/1:00
+#   iow    hh/r:mm
+
+[Install]
+WantedBy=timers.target
