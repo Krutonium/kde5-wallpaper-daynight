@@ -1,6 +1,13 @@
 # KDE Plasma Wallpaper Day/Night Cycler (WIP)
 This is a small repo that allows users to change their wallpaper in Plasma based on the time of day. Each hour, the wallpaper is changed to the most appropriate wallpaper for the time of day. Each day at 12:00am, the wallpaper set is changed.
 
+The script adds the following commands to your PATH:
+* `auto-wallpaper` - Automatically sets the wallpaper based on the date and time. Add this to your crontab to run hourly.
+* `day-mode` - Manually sets the wallpaper to day variant.
+* `sunset-mode` - Manually sets the wallpaper to sunset variant.
+* `night-mode` - Manually sets the wallpaper to night variant.
+* `wallpaper <image-path>` - Manually sets the wallpaper to a given image path. Works with relative paths.
+
 Say you have 6 images like so:
 * tokyo-street-day.jpg
 * tokyo-street-sunset.jpg
