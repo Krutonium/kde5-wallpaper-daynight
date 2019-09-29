@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source $HOME/.daynightrc
+source "~$USER/.daynightrc"
 PERIOD=night
 
 # Get day and hour
