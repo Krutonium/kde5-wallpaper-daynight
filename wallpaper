@@ -1,14 +1,62 @@
 #!/bin/bash
-sudo -u resin \
+
+# Optionally get user to work on
+if [[ -n $2 ]]; then
+	USER="$2"
+fi
+
+# Get .daynightrc config for user
+source $(eval echo "~$USER/.daynightrc") || exit
+
+# Get day and hour
+DAYS=$(date +"%j")
+HOUR=$(date +"%H")
+
+#TODO: Determine if pre-set wallpaper was requested
+#for $I in $WALLPAPERS; do
+#	if [[ $1 == $I ]]; then
+#		#statements
+#	fi
+#done
+
+# Decide on day/sunset/night version of wallpaper based on hour
+
+if [[ $1 == "day" ]]; then
+	PERIOD=day
+elif [[ $1 == "sunset" ]]; then
+	PERIOD=sunset
+elif [[ $1 == "night" ]]; then
+	PERIOD=night
+elif [[ $1 == "auto" || -z $1 ]]; then
+	if [[ $HOUR -lt $DAY_HOUR || $HOUR -ge $NIGHT_HOUR ]]; then
+		PERIOD=night
+	elif [[ $HOUR -lt $SUNSET_HOUR ]]; then
+		PERIOD=day
+	elif [[ $HOUR -lt $NIGHT_HOUR ]]; then
+		PERIOD=sunset
+	fi
+fi
+
+
+# Determine wallpaper based on period or manual set path
+if [[ -n $PERIOD ]]; then
+	WALLPAPER="$WALLPAPER_PATH/${WALLPAPERS[$(($DAYS % ${#WALLPAPERS[@]}))]}-$PERIOD.$WALLPAPER_EXTENSION"
+else
+	WALLPAPER="$(realpath $1)"
+fi
+
+
+# Set wallpaper of user with DBus
+sudo -u $USER \
 DISPLAY=:0 \
-DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus \
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u $USER)/bus \
 qdbus org.kde.plasmashell /PlasmaShell evaluateScript '
     var allDesktops = desktops();
-    for (i=0;i<allDesktops.length;i++) 
+    for (i=0;i<allDesktops.length;i++)
     {
         d = allDesktops[i];
         d.wallpaperPlugin = "org.kde.image";
         d.currentConfigGroup = Array("Wallpaper", "org.kde.image", "General");
-        d.writeConfig("Image", "file://'$(realpath $1)'")
+        d.writeConfig("Image", "file://'$WALLPAPER'")
     }
 '
