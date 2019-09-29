@@ -3,8 +3,8 @@ Description=Switch wallpaper of user %i to most appropriate for time of day
 After=network.target
 
 [Service]
-User=resin
-ExecStart=/home/resin/.local/bin/wallpaper auto %i
+User=%i
+ExecStart=/usr/bin/wallpaper auto %i
 
 [Install]
 WantedBy=multi-user.target
