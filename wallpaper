@@ -1,10 +1,15 @@
 #!/bin/bash
-sudo -u resin \
+
+if [[ -n $2 ]]; then
+	USER="$2"
+fi
+
+sudo -u $USER \
 DISPLAY=:0 \
-DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus \
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u $USER)/bus \
 qdbus org.kde.plasmashell /PlasmaShell evaluateScript '
     var allDesktops = desktops();
-    for (i=0;i<allDesktops.length;i++) 
+    for (i=0;i<allDesktops.length;i++)
     {
         d = allDesktops[i];
         d.wallpaperPlugin = "org.kde.image";

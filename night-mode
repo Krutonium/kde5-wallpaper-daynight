@@ -1,6 +1,10 @@
 #!/bin/bash
 
-source "~$USER/.daynightrc"
+if [[ -n $1 ]]; then
+	USER="$1"
+fi
+
+source $(eval echo  "~$USER/.daynightrc") || exit
 PERIOD=night
 
 # Get day and hour
@@ -9,4 +13,4 @@ HOUR=$(date +"%H")
 
 # Decide on wallpaper set based on daily rotation
 WALLPAPER_NAME=${WALLPAPERS[$(($DAYS % ${#WALLPAPERS[@]}))]}
-wallpaper "$WALLPAPER_PATH/$WALLPAPER_NAME-$PERIOD.$WALLPAPER_EXTENSION"
+wallpaper "$WALLPAPER_PATH/$WALLPAPER_NAME-$PERIOD.$WALLPAPER_EXTENSION" $USER
