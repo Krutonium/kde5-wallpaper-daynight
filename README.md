@@ -2,7 +2,7 @@
 This is a small repo that allows users to change their wallpaper in Plasma based on the time of day. Each hour, the wallpaper is changed to the most appropriate wallpaper for the time of day. Each day at 12:00am, the wallpaper set is changed.
 
 ## Installation
-1. Copy `wallpaper` into `/usr/local/bin/`
+1. Copy `wallpaper` into `/usr/bin/`
 2. Copy `.daynightrc_example` to your home directory as `.daynightrc` and modify accordingly
 3. *Optionally*, to hourly set the wallpaper based on time of day, do either of the following:
     * ### Systemd:
