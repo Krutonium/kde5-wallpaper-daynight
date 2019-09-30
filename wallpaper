@@ -7,6 +7,9 @@ fi
 # Get .daynightrc config for user
 if [[ ! -f $(eval echo "~$USER/.config/daynightrc") ]]; then
 	cp /etc/default/daynight/daynightrc $(eval echo "~$USER")
+	echo "Config was not found; blank config placed in ~/.config/daynightrc"
+	echo "For automatic wallpaper rotation, edit this config. Otherwise, ignore this message and try again."
+	exit 1
 fi
 source $(eval echo "~$USER/.config/daynightrc") || (echo "Error: no config found"; exit 1)
 
