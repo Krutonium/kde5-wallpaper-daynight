@@ -54,6 +54,3 @@ SUNSET_HOUR=17
 NIGHT_HOUR=19
 ```
 Every day at 12:00am, the script would alternate between tokyo-street and old-house, and every hour, it will decide whether to use the day, sunset or night variant of whichever of the two is being used that day.
-## Known issues
-* Will not work for non-sudoers outside of terminal because of horrible DBus magic
-* It's just a mess tbh
