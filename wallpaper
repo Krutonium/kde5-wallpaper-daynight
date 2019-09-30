@@ -1,7 +1,7 @@
 #!/bin/bash
 if [[ -z $# ]]; then
-    echo "Error: no arguments specified"
-    exit 1
+	echo "Error: no arguments specified"
+	exit 1
 fi
 
 # Get .daynightrc config for user
@@ -42,15 +42,15 @@ while test $# -gt 0; do
 			PERIOD=day
 			shift
 			;;
-        sunset|--sunset) # Sunset mode
+				sunset|--sunset) # Sunset mode
 			PERIOD=sunset
 			shift
 			;;
-        night|--night) # Night mode
+				night|--night) # Night mode
 			PERIOD=night
 			shift
 			;;
-        auto|--auto)
+				auto|--auto)
 			PERIOD=auto
 			shift
 			;;
@@ -59,10 +59,10 @@ while test $# -gt 0; do
 
 				# Check if wallpaper is a known alias
 				for ITEM in "${WALLPAPERS[@]}"; do
-    				if [[ $1 == "$ITEM" ]]; then
-    					WALLPAPER_NAME="$1"
+					if [[ $1 == "$ITEM" ]]; then
+						WALLPAPER_NAME="$1"
 						echo $WALLPAPER_NAME
-    				fi
+					fi
 				done
 
 				# If the above failed, assume wallpaper is a file path
@@ -127,13 +127,13 @@ fi
 export DISPLAY=:0
 export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u $USER)/bus
 qdbus org.kde.plasmashell /PlasmaShell evaluateScript '
-    var allDesktops = desktops();
-    for (i=0;i<allDesktops.length;i++)
-    {
-        d = allDesktops[i];
-        d.wallpaperPlugin = "org.kde.image";
-        d.currentConfigGroup = Array("Wallpaper", "org.kde.image", "General");
-        d.writeConfig("Image", "file://'$WALLPAPER'")
-    }
+	var allDesktops = desktops();
+	for (i=0;i<allDesktops.length;i++)
+	{
+		d = allDesktops[i];
+		d.wallpaperPlugin = "org.kde.image";
+		d.currentConfigGroup = Array("Wallpaper", "org.kde.image", "General");
+		d.writeConfig("Image", "file://'$WALLPAPER'")
+	}
 '
 echo "Set wallpaper of $USER to $WALLPAPER"
