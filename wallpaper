@@ -124,9 +124,8 @@ fi
 
 
 # Set KDE Plasma wallpaper of user with DBus
-sudo -u "$USER" \
-DISPLAY=:0 \
-DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u $USER)/bus \
+export DISPLAY=:0
+export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u $USER)/bus
 qdbus org.kde.plasmashell /PlasmaShell evaluateScript '
     var allDesktops = desktops();
     for (i=0;i<allDesktops.length;i++)
