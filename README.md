@@ -3,7 +3,7 @@ This is a small repo that allows users to change their wallpaper in Plasma based
 
 ## Installation
 1. Copy `wallpaper` into `/usr/bin/`
-2. Copy `.daynightrc_example` to your home directory as `.daynightrc` and modify accordingly
+2. Copy `daynightrc` or `daynightrc_example` to `~/.config/daynightrc` and modify accordingly
 3. *Optionally*, to hourly set the wallpaper based on time of day, do either of the following:
     * ### Systemd:
 
@@ -36,7 +36,7 @@ Say you have 6 images in `/home/you/Pictures/` like so:
 * old-house-sunset.jpg
 * old-house-night.jpg
 
-You would set your `.daynightrc` like so:
+You would set your `daynightrc` like so:
 ```
 # Full path to image to use
 WALLPAPER_PATH="/home/you/Pictures/"

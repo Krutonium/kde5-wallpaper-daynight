@@ -5,10 +5,10 @@ if [[ -z $# ]]; then
 fi
 
 # Get .daynightrc config for user
-if [[ ! -f $(eval echo "~$USER/.daynightrc") ]]; then
-	cp /etc/default/daynight/.daynightrc $(eval echo "~$USER")
+if [[ ! -f $(eval echo "~$USER/.config/daynightrc") ]]; then
+	cp /etc/default/daynight/daynightrc $(eval echo "~$USER")
 fi
-source $(eval echo "~$USER/.daynightrc") || (echo "Error: no .daynightrc found"; exit 1)
+source $(eval echo "~$USER/.config/daynightrc") || (echo "Error: no config found"; exit 1)
 
 
 while test $# -gt 0; do
