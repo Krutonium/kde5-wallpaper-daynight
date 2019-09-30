@@ -1,0 +1,14 @@
+# Full path to image to use
+WALLPAPER_PATH=""
+
+# Array of wallpaper sets
+# Each item is a name for set of wallpapers
+WALLPAPERS=()
+
+# Extension for set of wallpapers (E.g. jpg)
+WALLPAPER_EXTENSION="jpg"
+
+# Hours to switch the wallpaper at (24hr, e.g. 17 for 5pm)
+DAY_HOUR=6
+SUNSET_HOUR=18
+NIGHT_HOUR=20
