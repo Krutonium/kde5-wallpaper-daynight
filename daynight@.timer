@@ -2,6 +2,7 @@
 Description=Hourly checking the time for wallpaper day/night cycle for user %i
 
 [Timer]
+User=%i
 OnCalendar=00/1:00
 #          hh/r:mm
 

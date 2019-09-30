@@ -1,33 +1,98 @@
 #!/bin/bash
-
-# Optionally get user to work on
-if [[ -n $2 ]]; then
-	USER="$2"
+if [[ -z $# ]]; then
+    echo "Error: no arguments specified"
+    exit 1
 fi
 
 # Get .daynightrc config for user
-source $(eval echo "~$USER/.daynightrc") || exit
+if [[ ! -f $(eval echo "~$USER/.daynightrc") ]]; then
+	cp /etc/defaults/ $(eval echo "~$USER")
+fi
+source $(eval echo "~$USER/.daynightrc") || (echo "Error: no .daynightrc found"; exit 1)
 
-# Get day and hour
-DAYS=$(date +"%j")
-HOUR=$(date +"%H")
 
-#TODO: Determine if pre-set wallpaper was requested
-#for $I in $WALLPAPERS; do
-#	if [[ $1 == $I ]]; then
-#		#statements
-#	fi
-#done
+while test $# -gt 0; do
+	case "$1" in
+		-h|--help) # Display help
+			echo "$package - attempt to capture frames"
+			echo " "
+			echo "$package [options] application [arguments]"
+			echo " "
+			echo "options:"
+			echo "-h,	--help		Show brief help"
+			echo "-u	--user		Specify the user whose wallpaper to change"
+			exit 0
+			;;
+		-u|--user) # User to change the wallpaper of
+			shift
+			if test $# -gt 0; then
+					USER="$1"
+					HOME=$(eval echo "~$USER")
+					if [[ ! -d $HOME ]]; then
+						echo "Error: user does not exist or has no home directory"
+						exit 1
+					fi
+			else
+				echo "Error: no user specified for -u"
+				exit 1
+			fi
+			shift
+			;;
+		day|--day) # Day mode
+			PERIOD=day
+			shift
+			;;
+        sunset|--sunset) # Sunset mode
+			PERIOD=sunset
+			shift
+			;;
+        night|--night) # Night mode
+			PERIOD=night
+			shift
+			;;
+        auto|--auto)
+			PERIOD=auto
+			shift
+			;;
+		*) # Manual input. Compatible with day, sunset, night, auto
+			if [[ -z $WALLPAPER && -z $WALLPAPER_NAME ]]; then
 
-# Decide on day/sunset/night version of wallpaper based on hour
+				# Check if wallpaper is a known alias
+				for ITEM in "${WALLPAPERS[@]}"; do
+    				if [[ $1 == "$ITEM" ]]; then
+    					WALLPAPER_NAME="$1"
+						echo $WALLPAPER_NAME
+    				fi
+				done
 
-if [[ $1 == "day" ]]; then
-	PERIOD=day
-elif [[ $1 == "sunset" ]]; then
-	PERIOD=sunset
-elif [[ $1 == "night" ]]; then
-	PERIOD=night
-elif [[ $1 == "auto" || -z $1 ]]; then
+				# If the above failed, assume wallpaper is a file path
+				if [[ -z $WALLPAPER_NAME ]]; then
+					WALLPAPER="$(realpath $1)"
+				fi
+			else
+				echo "Error: more than one wallpaper specified"
+				exit 1
+			fi
+			shift
+			;;
+	esac
+done
+
+# Prevent manually setting wallpaper and requesting automatic selection simultaneously
+if [[ -n $WALLPAPER && -n $PERIOD ]]; then
+	echo "Error: cannot use day/night with manual wallpaper path"
+	exit 1
+fi
+
+# Determine wallpaper based on date if not manually overridden
+if [[ -z $WALLPAPER_NAME ]]; then
+	DAYS=$(date +"%j")
+	WALLPAPER_NAME="${WALLPAPERS[$(($DAYS % ${#WALLPAPERS[@]}))]}"
+fi
+
+# Determine time of day automatically unless otherwise specified
+if [[ $PERIOD == "auto" || -z $PERIOD ]]; then
+	HOUR=$(date +"%H")
 	if [[ $HOUR -lt $DAY_HOUR || $HOUR -ge $NIGHT_HOUR ]]; then
 		PERIOD=night
 	elif [[ $HOUR -lt $SUNSET_HOUR ]]; then
@@ -37,17 +102,30 @@ elif [[ $1 == "auto" || -z $1 ]]; then
 	fi
 fi
 
-
-# Determine wallpaper based on period or manual set path
-if [[ -n $PERIOD ]]; then
-	WALLPAPER="$WALLPAPER_PATH/${WALLPAPERS[$(($DAYS % ${#WALLPAPERS[@]}))]}-$PERIOD.$WALLPAPER_EXTENSION"
-else
-	WALLPAPER="$(realpath $1)"
+# Determine wallpaper path if not manually overridden
+if [[ -z $WALLPAPER ]]; then
+	WALLPAPER="$WALLPAPER_PATH/$WALLPAPER_NAME-$PERIOD.$WALLPAPER_EXTENSION"
 fi
 
 
-# Set wallpaper of user with DBus
-DISPLAY=:0 
+
+# If after all that, no wallpaper was ever actually specified, exit
+if [[ -z $WALLPAPER ]]; then
+	echo "Error: no mode or wallpaper specified"
+	exit 1
+fi
+
+# If wallpaper doesn't exist or is inaccessible, exit
+if [[ ! -f $WALLPAPER ]]; then
+	echo "Error: wallpaper does not exist or is inaccessible"
+	exit 1
+fi
+
+
+
+# Set KDE Plasma wallpaper of user with DBus
+sudo -u "$USER" \
+DISPLAY=:0 \
 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u $USER)/bus \
 qdbus org.kde.plasmashell /PlasmaShell evaluateScript '
     var allDesktops = desktops();

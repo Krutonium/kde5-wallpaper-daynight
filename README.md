@@ -10,7 +10,7 @@ This is a small repo that allows users to change their wallpaper in Plasma based
     Copy `daynight@.service` and `daynight@.timer` into `/etc/systemd/system/`. Then enable the timer with `systemctl enable daynight@YOURNAME.timer; systemctl start daynight@YOURNAME.timer`, replacing YOURNAME with your user.
     * ### Cron:
 
-    Add `0 * * * * /home/resin/.local/bin/wallpaper auto {YOURNAME}` to your crontab with `crontab -e`, replacing {YOURNAME} with your user.
+    Add `0 * * * * /home/resin/.local/bin/wallpaper --auto -u {YOURNAME}` to your crontab with `crontab -e`, replacing {YOURNAME} with your user.
 
 ## Configuration
 * `WALLPAPER_PATH` - The folder containing all your wallpapers
@@ -23,8 +23,9 @@ This is a small repo that allows users to change their wallpaper in Plasma based
 Because this is just a pet project, other naming conventions or wallpapers each with different extensions aren't supported yet.
 ## Usage
 * `wallpaper` / `wallpaper auto` - Automatically sets the wallpaper based on the date and time.
-* `wallpaper {day|night|sunset}` - Automatically sets the wallpaper based on the date, but manually sets the wallpaper to day/night/sunset variant.
+* `wallpaper --{day|night|sunset}` - Automatically sets the wallpaper based on the date, but manually sets the wallpaper to day/night/sunset variant.
 * `wallpaper {image-path}` - Manually sets the wallpaper to a specified image.
+* `-u | --user {username}` - Manually specify the user
 
 ## Example: Auto-cycling Wallpapers
 Say you have 6 images in `/home/you/Pictures/` like so:
@@ -53,3 +54,6 @@ SUNSET_HOUR=17
 NIGHT_HOUR=19
 ```
 Every day at 12:00am, the script would alternate between tokyo-street and old-house, and every hour, it will decide whether to use the day, sunset or night variant of whichever of the two is being used that day.
+## Known issues
+* Will not work for non-sudoers outside of terminal because of horrible DBus magic
+* It's just a mess tbh

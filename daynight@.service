@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 User=%i
-ExecStart=/usr/bin/wallpaper auto %i
+ExecStart=/usr/bin/wallpaper --auto -u %i
 
 [Install]
 WantedBy=multi-user.target
