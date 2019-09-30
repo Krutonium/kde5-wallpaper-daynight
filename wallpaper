@@ -59,3 +59,4 @@ qdbus org.kde.plasmashell /PlasmaShell evaluateScript '
         d.writeConfig("Image", "file://'$WALLPAPER'")
     }
 '
+echo "Set wallpaper of $USER to $WALLPAPER"
