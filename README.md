@@ -2,23 +2,24 @@
 This is a small repo that allows users to change their wallpaper in Plasma based on the time of day. Each hour, the wallpaper is changed to the most appropriate wallpaper for the time of day. Each day at 12:00am, the wallpaper set is changed.
 
 ## Installation
-1. Run INSTALL.sh
-2. Optionally copy `daynightrc_example` to `~/.config/daynightrc` and modify accordingly
-3. Optionally, to hourly set the wallpaper based on time of day, do either of the following:
+* On Arch: you can install `kde5-wallpaper-daynight-git` from the AUR
+* On other distros: run INSTALL.sh
+
+## Configuration
+* Optionally copy `daynightrc_example` to `~/.config/daynightrc` and modify accordingly
+	* `WALLPAPER_PATH` - The folder containing all your wallpapers
+	* `WALLPAPERS` - An array of wallpaper names (See [Example: Auto-cycling Wallpapers](#example-auto-cycling-wallpapers))
+	* `WALLPAPER_EXTENSION` - The extension of your wallpapers (E.g. `jpg`, `png`)
+	* `DAY_HOUR` - The hour to switch to day mode
+	* `SUNSET_HOUR` - The hour to switch to sunset mode
+	* `NIGHT_HOUR` - The hour to switch to night mode
+* To hourly set the wallpaper based on time of day, do either of the following:
     * ### Systemd:
 
     Copy `daynight@.service` and `daynight@.timer` into `/etc/systemd/system/`. Then enable the timer with `systemctl enable daynight@YOURNAME.timer; systemctl start daynight@YOURNAME.timer`, replacing YOURNAME with your user.
     * ### Cron:
 
     Add `0 * * * * /home/resin/.local/bin/wallpaper --auto -u {YOURNAME}` to your crontab with `crontab -e`, replacing {YOURNAME} with your user.
-
-## Configuration
-* `WALLPAPER_PATH` - The folder containing all your wallpapers
-* `WALLPAPERS` - An array of wallpaper names (See [Example: Auto-cycling Wallpapers](#example-auto-cycling-wallpapers))
-* `WALLPAPER_EXTENSION` - The extension of your wallpapers (E.g. `jpg`, `png`)
-* `DAY_HOUR` - The hour to switch to day mode
-* `SUNSET_HOUR` - The hour to switch to sunset mode
-* `NIGHT_HOUR` - The hour to switch to night mode
 
 Because this is just a pet project, other naming conventions or wallpapers each with different extensions aren't supported yet.
 ## Usage
