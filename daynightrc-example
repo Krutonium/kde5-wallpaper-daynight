@@ -1,3 +1,6 @@
+#KDE or Gnome
+KDE=1
+
 # Full path to image to use
 WALLPAPER_PATH="/home/resin/Pictures/Wallpapers/"
 

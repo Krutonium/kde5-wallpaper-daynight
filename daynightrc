@@ -1,3 +1,7 @@
+# Gnome (and derivitives) or KDE
+KDE=0
+# 0 for Gnome
+
 # Full path to image to use
 WALLPAPER_PATH=""
 
@@ -12,3 +16,4 @@ WALLPAPER_EXTENSION="jpg"
 DAY_HOUR=6
 SUNSET_HOUR=18
 NIGHT_HOUR=20
+

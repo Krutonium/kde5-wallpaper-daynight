@@ -7,7 +7,8 @@ This is a small repo that allows users to change their wallpaper in Plasma based
 
 ## Configuration
 * Optionally copy `daynightrc_example` to `~/.config/daynightrc` and modify accordingly
-	* `WALLPAPER_PATH` - The folder containing all your wallpapers
+	* `KDE` - Defaults to KDE, change to 1 to change wallpaper on Gnome
+    * `WALLPAPER_PATH` - The folder containing all your wallpapers
 	* `WALLPAPERS` - An array of wallpaper names (See [Example: Auto-cycling Wallpapers](#example-auto-cycling-wallpapers))
 	* `WALLPAPER_EXTENSION` - The extension of your wallpapers (E.g. `jpg`, `png`)
 	* `DAY_HOUR` - The hour to switch to day mode
