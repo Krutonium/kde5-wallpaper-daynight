@@ -125,7 +125,7 @@ if [[ ! -f $WALLPAPER ]]; then
 fi
 
 
-if [[ $KDE -eq "1" ]]; then
+if [[ $GNOME -eq "0" ]]; then
     # Set KDE Plasma wallpaper of user with DBus
     export DISPLAY=:0
     export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u $USER)/bus
@@ -140,7 +140,7 @@ if [[ $KDE -eq "1" ]]; then
 	    }
     '
 fi
-if [[ $KDE -eq "0" ]]; then
+if [[ $GNOME -eq "1" ]]; then
     gsettings set org.gnome.desktop.background picture-uri "file:///$WALLPAPER"
 fi
 echo "Set wallpaper of $USER to $WALLPAPER"
