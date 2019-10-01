@@ -1,5 +1,5 @@
 # Gnome (and derivitives) or KDE
-KDE=0
+KDE=1
 # 0 for Gnome
 
 # Full path to image to use
